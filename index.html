@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso al Sistema - Gestión</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #ffffff;
+            --primary: #2563eb;
+            --accent: #06b6d4;
+            --indigo: #4f46e5;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --border-glow: rgba(37, 99, 235, 0.25);
+            --shadow-heavy: 0 25px 60px -15px rgba(15, 23, 42, 0.18), 0 0 30px 0 rgba(6, 182, 212, 0.12);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(37, 99, 235, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(6, 182, 212, 0.10) 0px, transparent 50%),
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 35px 35px, 35px 35px;
+            color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Orbes decorativos futuristas en fondo blanco */
+        .orb-1, .orb-2 {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            z-index: 0;
+            pointer-events: none;
+        }
+        .orb-1 { width: 350px; height: 350px; background: rgba(37, 99, 235, 0.12); top: -80px; left: -80px; }
+        .orb-2 { width: 400px; height: 400px; background: rgba(6, 182, 212, 0.12); bottom: -100px; right: -100px; }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 48px 42px;
+            border-radius: 28px;
+            box-shadow: var(--shadow-heavy);
+            width: 100%;
+            max-width: 440px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            outline: 2px solid var(--border-glow);
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 30px 70px -12px rgba(15, 23, 42, 0.24), 0 0 40px 0 rgba(37, 99, 235, 0.18);
+        }
+
+        .tech-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background: linear-gradient(90deg, rgba(37, 99, 235, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid rgba(37, 99, 235, 0.25);
+            border-radius: 99px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1.8px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: 0 0 28px 0;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .input-group {
+            margin-bottom: 22px;
+            text-align: left;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #334155;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--text-dark);
+            font-weight: 500;
+            outline: none;
+            transition: all 0.25s ease;
+            box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.03);
+        }
+
+        input:focus {
+            background: #ffffff;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12), 0 8px 20px -6px rgba(37, 99, 235, 0.15);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 8px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--indigo) 60%, var(--accent) 100%);
+            background-size: 200% auto;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.35s ease;
+            box-shadow: 0 12px 25px -6px rgba(37, 99, 235, 0.45);
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background-position: right center;
+            transform: translateY(-2px);
+            box-shadow: 0 18px 32px -6px rgba(6, 182, 212, 0.55);
+        }
+
+        .toggle-text {
+            margin-top: 24px;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .toggle-text:hover {
+            color: var(--primary);
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 18px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e2e8f0;
+            padding: 8px 16px;
+            border-radius: 99px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 11px;
+            color: #0f172a;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+            z-index: 10;
+        }
+
+        #registro-form { display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="orb-1"></div>
+    <div class="orb-2"></div>
+
+    <div class="container" id="login-form">
+        <div class="tech-badge">NEXUS CORE SYSTEM</div>
+        <h2>Iniciar Sesión</h2>
+        <div class="input-group">
+            <label>DNI / Usuario Admin</label>
+            <input type="text" id="login-dni" placeholder="Ingresa tu DNI o admin">
+        </div>
+        <div class="input-group">
+            <label>Contraseña de Acceso</label>
+            <input type="password" id="login-pass" placeholder="••••••••">
+        </div>
+        <button onclick="login()">Conectar al Panel</button>
+        <div class="toggle-text" onclick="toggleForms()">¿Nuevo operador? Regístrate como asesor →</div>
+    </div>
+
+    <div class="container" id="registro-form">
+        <div class="tech-badge">REGISTRO DE OPERADOR</div>
+        <h2>Alta de Asesor</h2>
+        <div class="input-group">
+            <label>Nombre Completo</label>
+            <input type="text" id="reg-nombre" placeholder="Ej. Juan Pérez">
+        </div>
+        <div class="input-group">
+            <label>Documento DNI</label>
+            <input type="text" id="reg-dni" placeholder="Ingresa los 8 dígitos">
+        </div>
+        <div class="input-group">
+            <label>Crear Contraseña</label>
+            <input type="password" id="reg-pass" placeholder="Crea una clave segura">
+        </div>
+        <button onclick="registrar()">Generar Credencial</button>
+        <div class="toggle-text" onclick="toggleForms()">← ¿Ya tienes cuenta? Inicia Sesión</div>
+    </div>
+
+    <div class="watermark">Creado por Jonatan Santiago</div>
+
+    <script>
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxiwPL4lDrK5fyDExWVPyeMORCQm03JuW6HZvvzABEWiyh48x1RQsQOK5mGns0pSZkY/exec';
+
+        function toggleForms() {
+            const loginF = document.getElementById('login-form');
+            const regF = document.getElementById('registro-form');
+            if (loginF.style.display === 'none') {
+                loginF.style.display = 'block';
+                regF.style.display = 'none';
+            } else {
+                loginF.style.display = 'none';
+                regF.style.display = 'block';
+            }
+        }
+
+        async function login() {
+            const dni = document.getElementById('login-dni').value;
+            const pass = document.getElementById('login-pass').value;
+            if(!dni || !pass) return alert("Completa los campos");
+
+            const btn = document.querySelector('#login-form button');
+            btn.innerText = "Verificando...";
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ action: 'login', dni: dni, password: pass })
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('userDni', data.dni);
+                    localStorage.setItem('userName', data.nombre);
+                    if (data.rol === 'admin') window.location.href = 'admin.html';
+                    else window.location.href = 'asesor.html';
+                } else if (data.cesado) {
+                    alert("⛔ ACCESO DENEGADO: Tu usuario se encuentra en estado de CESE y no tiene permisos para ingresar a la plataforma.");
+                } else {
+                    alert("Credenciales incorrectas");
+                }
+            } catch(e) { console.log(e); alert("Error de conexión"); }
+            btn.innerText = "Conectar al Panel";
+        }
+
+        async function registrar() {
+            const nombre = document.getElementById('reg-nombre').value;
+            const dni = document.getElementById('reg-dni').value;
+            const pass = document.getElementById('reg-pass').value;
+            if(!nombre || !dni || !pass) return alert("Completa todos los campos");
+
+            const btn = document.querySelector('#registro-form button');
+            btn.innerText = "Procesando...";
+
+            try {
+                const res = await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ action: 'registerAsesor', nombre, dni, password: pass })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    alert("Registro exitoso. Ahora puedes iniciar sesión.");
+                    toggleForms();
+                }
+            } catch(e) { alert("Error al registrar"); }
+            btn.innerText = "Generar Credencial";
+        }
+    </script>
+</body>
+</html>
